@@ -347,6 +347,8 @@ grammar.add_rule(SlideStartRule())
 grammar.add_rule(TabifyRule())
 grammar.load()
 
+print 'loading ff'
+
 # Unload function which will be called by natlink at unload time.
 def unload():
     global grammar

@@ -70,7 +70,7 @@ except ImportError:
     pass
 
 from dragonfly import *
-
+from lib import format
 
 #---------------------------------------------------------------------------
 # Here we globally defined the release action which releases all
@@ -92,49 +92,176 @@ config.cmd.map    = Item(
     #  modify it to your personal taste, please *do not* make changes
     #  here.  Instead change the *config file* called "_multiedit.txt".
     {
-     # Spoken-form    ->    ->    ->     Action object
-     "up [<n>]":                         Key("up:%(n)d"),
-     "down [<n>]":                       Key("down:%(n)d"),
-     "left [<n>]":                       Key("left:%(n)d"),
-     "right [<n>]":                      Key("right:%(n)d"),
-     "page up [<n>]":                    Key("pgup:%(n)d"),
-     "page down [<n>]":                  Key("pgdown:%(n)d"),
-     "up <n> (page | pages)":            Key("pgup:%(n)d"),
-     "down <n> (page | pages)":          Key("pgdown:%(n)d"),
-     "left <n> (word | words)":          Key("c-left:%(n)d"),
-     "right <n> (word | words)":         Key("c-right:%(n)d"),
-     "home":                             Key("home"),
-     "end":                              Key("end"),
-     "doc home":                         Key("c-home"),
-     "doc end":                          Key("c-end"),
+     
+    'up [<n>]':    Key('up:%(n)d'),
+    'down [<n>]':  Key('down:%(n)d'),
+    'lee [<n>]':  Key('left:%(n)d'),
+    'rye [<n>]': Key('right:%(n)d'),
 
-     "space [<n>]":                      release + Key("space:%(n)d"),
-     "enter [<n>]":                      release + Key("enter:%(n)d"),
-     "tab [<n>]":                        Key("tab:%(n)d"),
-     "delete [<n>]":                     release + Key("del:%(n)d"),
-     "delete [<n> | this] (line|lines)": release + Key("home, s-down:%(n)d, del"),
-     "backspace [<n>]":                  release + Key("backspace:%(n)d"),
-     "pop up":                           release + Key("apps"),
+    'gope [<n>]':  Key('pgup:%(n)d'),
+    'Pad [<n>]':  Key('pgdown:%(n)d'),
 
-     "paste":                            release + Key("c-v"),
-     "duplicate <n>":                    release + Key("c-c, c-v:%(n)d"),
-     "copy":                             release + Key("c-c"),
-     "cut":                              release + Key("c-x"),
-     "select all":                       release + Key("c-a"),
-     "[hold] shift":                     Key("shift:down"),
-     "release shift":                    Key("shift:up"),
-     "[hold] control":                   Key("ctrl:down"),
-     "release control":                  Key("ctrl:up"),
-     "release [all]":                    release,
+    'low [<n>]':  Key('c-left:%(n)d'),
+    'row [<n>]':  Key('c-right:%(n)d'),
 
-     "say <text>":                       release + Text("%(text)s"),
-     "mimic <text>":                     release + Mimic(extra="text"),
+    'slow [<n>]':  Key('shift:down, c-left:%(n)d, shift:up'),
+    'srow [<n>]':  Key('shift:down, c-right:%(n)d, shift:up'),
+
+    'home':        Key('home'),
+    'feen':        Key('end'),
+
+    'file top':    Key('c-home'),
+    'file toe':    Key('c-end'),
+
+    #### Various keys
+    'ace [<n>]':         Key('space:%(n)d'),
+    'act':               Key('escape'),
+    'chuck [<n>]':       Key('del:%(n)d'),
+    'scratch [<n>]':     Key('backspace:%(n)d'),
+    'slap [<n>]':        Key('enter:%(n)d'),
+    'tab [<n>]':         Key('tab:%(n)d'),
+    'untab [<n>]':         Key('shift:down, tab:%(n)d, shift:up'),
+' copy':         Key('c-c'),
+
+    #### Lines
+    'line down [<n>]': Key('home:2, shift:down, end:2, shift:up, c-x, del, down:%(n)d, home:2, enter, up, c-v'),
+    'lineup [<n>]':    Key('home:2, shift:down, end:2, shift:up, c-x, del, up:%(n)d, home:2, enter, up, c-v'),
+    'nab [<n>]':       Key('home:2, shift:down, down:%(n)d, up, end:2, shift:up, c-c, end:2'),
+    'plop [<n>]':      Key('c-v:%(n)d'),
+    'see up [<n>]':      Key('shift:down, up:%(n)d, shift:up'),
+    'see down [<n>]':      Key('shift:down, down:%(n)d, shift:up'),
+	'see home ':      Key('shift:down, home, shift:up'),
+	'see feen':      Key('shift:down, end, shift:up'),
+	'comment':      Key('c-slash'),
+    
+	### Words
+    'bump [<n>]':      Key('c-del:%(n)d'),
+    'whack [<n>]':     Key('c-backspace:%(n)d'),
+
+	"(Alpha)": Key("a"),
+    "(bravo) ": Key("b"),
+    "(Coke) ": Key("c"),
+    "(delta) ": Key("d"),
+    "(echo) ": Key("e"),
+    "(fox) ": Key("f"),
+    "(golf) ": Key("g"),
+    "(hotel) ": Key("h"),
+    "(item) ": Key("i"),
+    "(John) ": Key("j"),
+    "(king) ": Key("k"),
+    "(love) ": Key("l"),
+    "(mike) ": Key("m"),
+    "(nuts) ": Key("n"),
+    "(orc) ": Key("o"),
+    "(prep) ": Key("p"),
+    "(quiche) ": Key("q"),
+    "(Roger) ": Key("r"),
+    "(sugar) ": Key("s"),
+    "(tango) ": Key("t"),
+    "(uncle) ": Key("u"),
+    "(victor) ": Key("v"),
+    "(whiskey) ": Key("w"),
+    "(x-ray) ": Key("x"),
+    "(yak) ": Key("y"),
+    "(zulu) ": Key("z"),
+
+     'capAlpha': Key('A'),
+    'capbravo': Key('B'),
+    'capCoke': Key('C'),
+    'capdelta': Key('D'),
+    'capecho': Key('E'),
+    'capfox': Key('F'),
+    'capgolf': Key('G'),
+    'caphotel': Key('H'),
+    'capking': Key('K'),
+    'capmike': Key('M'),
+    'caporc': Key('O'),
+    'capprep': Key('P'),
+    'capquiche': Key('Q'),
+    'captango': Key('T'),
+    'capvictor': Key('V'),
+    'capwhiskey': Key('W'),
+    'capxray': Key('X'),
+    'capyak': Key('Y'),
+    'capzulu': Key('Z'),
+    
+    "capuncle": Key("U"    )
+    , "capnuts": Key("N"   )
+    , "capitem": Key("I"   )
+    , "capjohn": Key("J" )
+    , "caplove": Key("L"   )
+    , "capsugar": Key("S"  )
+    , "caproger": Key("R"  ),
+    
+"eek ": Key("equal"),
+"rail": Key("underscore"),
+"dot ": Key("dot"),
+"whoops ": Key("c-z"),
+"save it": Key("c-s"),
+"quote": Key("squote"),
+    "amp": Key("ampersand"),
+    "ash": Key("slash"),
+    "atsign": Key("at"),
+    "backash": Key("backslash"),
+    "backtick": Key("backtick"),
+    "bang": Key("bang"),
+    "bar": Key("bar"),
+    "dollar": Key("dollar"),
+    "dot": Key("dot"),
+    "drip": Key("comma"),
+    "eek": Key("equal"),
+    "hat": Key("caret"),
+    "hyph": Key("minus"),
+    "percent": Key("percent"),
+    "pop": Key("rparen"),
+    "pound": Key("hash"),
+    "push": Key("lparen"),
+    "quest": Key("question"),
+    "quote": Key("dquote"),
+    "rail": Key("underscore"),
+    # "semi": Key("semicolon"),
+    "smote": Key("squote"),
+    "sol": Key("star"),
+    "tilde": Key("tilde"),
+    "yeah": Key("colon"),
+
+    "bitore": Key("bar"),
+    "bitand": Key("and"),
+    "bitexor": Key("caret"),
+    "divided": Key("slash"),
+    "plus": Key("plus"),
+    "minus": Key("minus"),
+    'boxso': Key('lbrace'),
+    'boxco': Key('rbrace'),
+    'squareso': Key('lbracket'),
+    'squareco': Key('rbracket'),
+
+"zero": Key("0"),
+    "one": Key("1"),
+    "two": Key("2"),
+    "three": Key("3"),
+    "four": Key("4"),
+    "five": Key("5"),
+    "six": Key("6"),
+    "seven": Key("7"),
+    "eight": Key("8"),
+    "nine": Key("9"),
+
+    "drip": Key("comma"),
+    "push": Key("lparen"),
+    "pop": Key("rparen"),
+
+	# format text
+	"score <text>": Function(format.snake_case_text),
+	"say <text>": Text('%(text)s'),
     },
+	
     namespace={
      "Key":   Key,
      "Text":  Text,
     }
 )
+
 namespace = config.load()
 
 #---------------------------------------------------------------------------
